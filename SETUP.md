@@ -3,7 +3,7 @@
 When this is done, Amy edits content at app.pagescms.org, and every save updates the live site on campus hosting within about 15–20 minutes. Nobody needs a terminal after setup.
 
 **How it works:**
-1. Pages CMS (browser editor) saves changes to the GitHub repository `ajwj-illinois/lab-website`.
+1. Pages CMS (browser editor- app.pagescms.org) saves changes to the GitHub repository `ajwj-illinois/lab-website`.
 2. A GitHub Action (`.github/workflows/deploy.yml`) builds the site with Astro and puts the finished pages on a branch called `deploy`.
 3. A cron job on the campus cPanel server (`scripts/cpanel-pull.sh`) checks that branch every 15 minutes and copies anything new into the web folder.
 
