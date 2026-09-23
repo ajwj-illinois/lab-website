@@ -1,0 +1,122 @@
+yaml
+# Browser editor configuration (Pages CMS: https://app.pagescms.org)
+# Each entry below becomes a section in the editor's left-hand menu.
+
+media:
+  input: public/images
+  output: /images
+
+content:
+  - name: news
+    label: News
+    type: collection
+    path: src/content/news
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [title, date]
+      primary: title
+      sort: [date]
+    fields:
+      - { name: title, label: Headline, type: string, required: true }
+      - { name: date, label: Date, type: date, required: true }
+      - { name: summary, label: Short summary (shown on cards), type: text, required: true }
+      - { name: image, label: Image (optional), type: image }
+      - { name: body, label: Full story (optional), type: rich-text }
+
+  - name: people
+    label: People
+    type: collection
+    path: src/content/people
+    filename: "{primary}.md"
+    view:
+      fields: [name, role, alumni]
+      primary: name
+      sort: [order, name]
+    fields:
+      - { name: name, label: Name, type: string, required: true }
+      - name: role
+        label: Role
+        type: select
+        required: true
+        options:
+          values: [Principal Investigator, Postdoctoral researcher, PhD student, MS student, MD/PhD student, Medical student, Undergraduate researcher, Research scientist, Visiting scholar, Lab manager, PhD, MS, Postdoc, BS]
+      - { name: program, label: "Department / program (or title, for the PI)", type: string }
+      - { name: photo, label: Photo (square works best), type: image }
+      - { name: email, label: Email, type: string }
+      - { name: website, label: Personal website or LinkedIn, type: string }
+      - { name: alumni, label: "Alumni? (turn on when someone leaves the lab)", type: boolean, default: false }
+      - { name: years, label: "Years in lab (alumni, e.g. 2018–2023)", type: string }
+      - { name: now, label: "Current position (alumni)", type: string }
+      - { name: order, label: "Sort order (lower numbers appear first)", type: number, default: 50 }
+      - { name: scholar, label: Google Scholar link (PI only), type: string }
+      - { name: cv, label: CV file (PI only), type: file }
+      - { name: highlights, label: Highlights (PI only), type: string, list: true }
+      - { name: body, label: Bio (PI only), type: rich-text }
+
+  - name: research
+    label: Research areas
+    type: collection
+    path: src/content/research
+    filename: "{primary}.md"
+    view:
+      fields: [title, order, featured]
+      primary: title
+      sort: [order]
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: summary, label: Short summary (shown on cards), type: text, required: true }
+      - name: icon
+        label: Icon
+        type: select
+        options:
+          values: [cervix, inflammation, scaffold, coral, tendon, imaging]
+      - { name: tags, label: Tags, type: string, list: true }
+      - { name: featured, label: "Flagship area? (big blue card; use for one area only)", type: boolean, default: false }
+      - { name: image, label: Image (e.g. an SHG image), type: image }
+      - { name: image_caption, label: Image caption, type: string }
+      - { name: order, label: "Sort order (lower numbers appear first)", type: number, default: 10 }
+      - { name: body, label: Full description, type: rich-text }
+
+  - name: publications
+    label: Publications (BibTeX)
+    description: "Paste a BibTeX export of your papers here (Google Scholar or Zotero). To pin a paper to the homepage, add  featured = {true},  inside its entry."
+    type: file
+    path: src/data/publications.bib
+    format: code
+
+  - name: join
+    label: Join page
+    type: file
+    path: src/content/pages/join.md
+    fields:
+      - { name: title, label: Page title, type: string }
+      - { name: intro, label: Intro line, type: text }
+      - { name: body, label: Page text, type: rich-text }
+
+  - name: site
+    label: Homepage & site settings
+    type: file
+    path: src/data/site.json
+    fields:
+      - { name: lab_name, label: Lab name, type: string }
+      - { name: lab_full_name, label: Small line above the headline, type: string }
+      - { name: hero_headline, label: Homepage headline, type: string }
+      - { name: hero_intro, label: Homepage intro paragraph, type: text }
+      - { name: research_heading, label: Research section heading, type: string }
+      - { name: research_intro, label: Research section intro, type: text }
+      - name: methods
+        label: '"How we measure" list'
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Method, type: string }
+          - { name: description, label: One-line description, type: string }
+      - { name: join_heading, label: Join band heading, type: string }
+      - { name: join_text, label: Join band text, type: text }
+      - { name: email, label: Contact email, type: string }
+      - { name: address, label: Address lines, type: string, list: true }
+      - { name: google_scholar, label: Google Scholar profile link, type: string }
+      - { name: affiliations, label: Affiliations, type: string, list: true }
+      - { name: department, label: Department, type: string }
+      - { name: department_url, label: Department website, type: string }
+      - { name: college, label: College, type: string }
