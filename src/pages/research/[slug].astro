@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { render } from 'astro:content';
+import { getResearch } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const all = await getResearch();
+  return all.map((entry) => ({ params: { slug: entry.id }, props: { entry, all } }));
+}
+const { entry, all } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+<Base title={d.title} description={d.summary}>
+  <PageHead eyebrow="Research" title={d.title} intro={d.summary} />
+  <section class="block">
+    <div class="wrap two-col">
+      <div>
+        {d.image && <figure class="figure"><img src={d.image} alt={d.image_caption || ''} />{d.image_caption && <figcaption>{d.image_caption}</figcaption>}</figure>}
+        <div class="prose"><Content /></div>
+        {d.tags.length > 0 && <div class="tags">{d.tags.map((t) => <span class="tag">{t}</span>)}</div>}
+      </div>
+      <aside class="aside">
+        <h4>Research areas</h4>
+        <ul>{all.map((r) => <li>{r.id === entry.id ? <b>{r.data.title}</b> : <a href={`/research/${r.id}/`}>{r.data.title}</a>}</li>)}</ul>
+        <p style="margin-top:24px"><a class="more" href="/publications/">Publications →</a></p>
+      </aside>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import ResearchCard from '../../components/ResearchCard.astro';
+import site from '../../data/site.json';
+import { getResearch } from '../../lib/content';
+const research = await getResearch();
+---
+<Base title="Research" description={site.research_intro}>
+  <PageHead eyebrow="Research" title={site.research_heading} intro={site.research_intro} />
+  <section class="block"><div class="wrap"><div class="themes">{research.map((r) => <ResearchCard entry={r} />)}</div></div></section>
+  <section class="block tint">
+    <div class="wrap">
+      <div class="sec-head"><div><div class="eyebrow">Approach</div><h2>How we measure</h2></div></div>
+      <div class="methods">{site.methods.map((m) => <div class="method"><b>{m.name}</b><span>{m.description}</span></div>)}</div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import { render } from 'astro:content';
+import { getNews } from '../../lib/content';
+export async function getStaticPaths() {
+  return (await getNews()).map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const date = d.date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+---
+<Base title={d.title} description={d.summary}>
+  <section class="block">
+    <div class="wrap article" style="max-width:800px">
+      <a class="more" href="/news/">← All news</a>
+      <p style="margin-top:40px"><time datetime={d.date.toISOString()}>{date}</time></p>
+      <h1 style="font-size:clamp(30px,4vw,44px);color:var(--blue);line-height:1.12;margin:12px 0 20px;letter-spacing:-.015em">{d.title}</h1>
+      <p style="font-size:21px;color:var(--muted);margin-bottom:32px">{d.summary}</p>
+      {d.image && <img src={d.image} alt="" style="width:100%;margin-bottom:32px" />}
+      <div class="prose"><Content /></div>
+    </div>
+  </section>
+</Base>

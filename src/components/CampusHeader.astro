@@ -1,0 +1,56 @@
+---
+// University header. On the live site this is the official campus header
+// (ilw-header from the Illinois Web Toolkit), which keeps the site brand-compliant.
+// In preview mode (PUBLIC_PREVIEW=1) a look-alike stand-in is drawn instead,
+// because the toolkit loads from the campus CDN.
+import site from '../data/site.json';
+const preview = import.meta.env.PUBLIC_PREVIEW === '1';
+const nav = [
+  { href: '/research/', label: 'Research' },
+  { href: '/people/', label: 'People' },
+  { href: '/publications/', label: 'Publications' },
+  { href: '/news/', label: 'News' },
+  { href: '/join/', label: 'Join' },
+];
+const path = Astro.url.pathname;
+---
+{preview ? (
+  <div class="standin-header">
+    <div class="strap">
+      <div class="wrap">
+        <a class="blocki" href="https://illinois.edu" aria-label="University of Illinois Urbana-Champaign">
+          <svg width="18" height="26" viewBox="0 0 20 28" aria-hidden="true"><path fill="#fff" d="M0 0h20v6h-5v16h5v6H0v-6h5V6H0z"/></svg>
+        </a>
+        <span class="uni">ILLINOIS</span>
+        <a class="unit" href={site.department_url}>{site.department}</a>
+      </div>
+    </div>
+    <header class="site">
+      <div class="wrap">
+        <a class="brand" href="/">{site.lab_name.replace(/ Lab$/, '')} <span>Lab</span></a>
+        <button class="menu-btn" aria-expanded="false" aria-controls="sitenav">Menu</button>
+        <nav class="nav" id="sitenav" aria-label="Main">
+          {nav.map((n) => <a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>)}
+        </nav>
+      </div>
+    </header>
+  </div>
+) : (
+  <ilw-header>
+    <a slot="parent-unit" href={site.department_url}>{site.department}</a>
+    <a slot="site-name" href="/">{site.lab_name}</a>
+    <ilw-header-menu slot="navigation">
+      <ul>
+        {nav.map((n) => <li><a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>)}
+      </ul>
+    </ilw-header-menu>
+  </ilw-header>
+)}
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.menu-btn');
+  const nav = document.getElementById('sitenav');
+  btn?.addEventListener('click', () => {
+    nav?.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(nav?.classList.contains('open')));
+  });
+</script>

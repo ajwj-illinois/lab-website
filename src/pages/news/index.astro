@@ -1,0 +1,11 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import { getNews } from '../../lib/content';
+const news = await getNews();
+---
+<Base title="News">
+  <PageHead eyebrow="News" title="Lab news" intro="Papers, awards, defenses, and talks." />
+  <section class="block"><div class="wrap"><div class="news-grid">{news.map((n) => <NewsCard entry={n} />)}</div></div></section>
+</Base>

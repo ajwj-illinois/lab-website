@@ -1,0 +1,37 @@
+---
+import CampusHeader from '../components/CampusHeader.astro';
+import CampusFooter from '../components/CampusFooter.astro';
+import site from '../data/site.json';
+import '../styles/global.css';
+
+interface Props { title?: string; description?: string }
+const { title, description = site.hero_intro } = Astro.props;
+const fullTitle = title ? `${title} | ${site.lab_name}` : `${site.lab_name} | University of Illinois Urbana-Champaign`;
+const preview = import.meta.env.PUBLIC_PREVIEW === '1';
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  {!preview && (<>
+    <link rel="stylesheet" href="https://cdn.toolkit.illinois.edu/3/toolkit.css" />
+    <script type="module" src="https://cdn.toolkit.illinois.edu/3/toolkit.js"></script>
+  </>)}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <CampusHeader />
+  <main id="main"><slot /></main>
+  <CampusFooter />
+</body>
+</html>

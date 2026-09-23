@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import PubList from '../components/PubList.astro';
+import site from '../data/site.json';
+import { getPubs } from '../lib/content';
+const pubs = getPubs();
+const years = [...new Set(pubs.map((p) => p.year))];
+---
+<Base title="Publications">
+  <PageHead eyebrow="Publications" title="Publications" intro={site.google_scholar ? undefined : 'Peer-reviewed articles from the lab.'} />
+  <section class="block">
+    <div class="wrap">
+      <div class="pub-tools">
+        <input id="pubsearch" type="search" placeholder="Search by title, author, journal, or year" aria-label="Search publications" />
+        <span class="pub-count" id="pubcount">{pubs.length} publications</span>
+        {site.google_scholar && <a class="more" href={site.google_scholar}>Google Scholar →</a>}
+      </div>
+      {years.map((y) => (
+        <div class="year-group">
+          <h2 class="year-head">{y || 'In press'}</h2>
+          <PubList pubs={pubs.filter((p) => p.year === y)} showYear={false} full />
+        </div>
+      ))}
+    </div>
+  </section>
+  <script>
+    const input = document.getElementById('pubsearch') as HTMLInputElement | null;
+    const count = document.getElementById('pubcount');
+    input?.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      let n = 0;
+      document.querySelectorAll<HTMLElement>('.year-group').forEach((g) => {
+        let shown = 0;
+        g.querySelectorAll<HTMLElement>('li[data-search]').forEach((li) => {
+          const hit = !q || (li.dataset.search || '').includes(q);
+          li.hidden = !hit;
+          if (hit) shown++;
+        });
+        g.hidden = shown === 0;
+        n += shown;
+      });
+      if (count) count.textContent = `${n} publication${n === 1 ? '' : 's'}`;
+    });
+  </script>
+</Base>

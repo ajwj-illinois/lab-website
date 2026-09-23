@@ -1,0 +1,13 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { entry: CollectionEntry<'news'>; }
+const { entry } = Astro.props;
+const d = entry.data;
+const date = d.date.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+---
+<a class="news-card" href={`/news/${entry.id}/`}>
+  {d.image && <img src={d.image} alt="" loading="lazy" />}
+  <time datetime={d.date.toISOString()}>{date}</time>
+  <h3>{d.title}</h3>
+  <p>{d.summary}</p>
+</a>

@@ -1,0 +1,22 @@
+---
+import type { Pub } from '../lib/bibtex';
+interface Props { pubs: Pub[]; showYear?: boolean; full?: boolean }
+const { pubs, showYear = true, full = false } = Astro.props;
+const isMe = (a: string) => /wagoner\s*johnson/i.test(a);
+const link = (p: Pub) => (p.doi ? `https://doi.org/${p.doi.replace(/^https?:\/\/(dx\.)?doi\.org\//, '')}` : p.url);
+---
+<ol class:list={['pubs', { 'pubs-full': full }]}>
+  {pubs.map((p) => (
+    <li data-search={`${p.title} ${p.authors.join(' ')} ${p.venue} ${p.year}`.toLowerCase()}>
+      {showYear && <span class="yr">{p.year || ''}</span>}
+      <div>
+        <div class="t">{link(p) ? <a href={link(p)}>{p.title}</a> : p.title}</div>
+        <div class="m">
+          {p.authors.map((a, i) => (<><span class:list={{ me: isMe(a) }}>{a}</span>{i < p.authors.length - 1 ? ', ' : ''}</>))}
+          {p.venue && <> · <i>{p.venue}</i></>}
+          {!showYear && p.year ? <> ({p.year})</> : null}
+        </div>
+      </div>
+    </li>
+  ))}
+</ol>

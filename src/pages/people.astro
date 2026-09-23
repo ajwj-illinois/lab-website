@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import PersonCard from '../components/PersonCard.astro';
+import { render } from 'astro:content';
+import { getPeople } from '../lib/content';
+const { pi, current, alumni } = await getPeople();
+const PiBio = pi ? (await render(pi)).Content : null;
+---
+<Base title="People">
+  <PageHead eyebrow="People" title="The team" intro="Engineers, biologists, and clinicians working together at the interface of mechanics and health." />
+  <section class="block">
+    <div class="wrap">
+      {pi && (
+        <div class="pi">
+          <div class="portrait">{pi.data.photo ? <img src={pi.data.photo} alt={`Portrait of ${pi.data.name}`} /> : 'Portrait photo'}</div>
+          <div>
+            <div class="eyebrow">Principal Investigator</div>
+            <h3 style="margin-top:8px">{pi.data.name}</h3>
+            <div class="role">{pi.data.program}</div>
+            <div class="bio">{PiBio && <PiBio />}</div>
+            <ul>
+              {pi.data.highlights.map((h) => <li>{h}</li>)}
+              <li>
+                {pi.data.email && <a href={`mailto:${pi.data.email}`}>{pi.data.email}</a>}
+                {pi.data.scholar && <> · <a href={pi.data.scholar}>Google Scholar</a></>}
+                {pi.data.cv && <> · <a href={pi.data.cv}>CV</a></>}
+              </li>
+            </ul>
+          </div>
+        </div>
+      )}
+      <h2 class="group-title">Current members</h2>
+      <div class="people">{current.map((p) => <PersonCard entry={p} />)}</div>
+      {alumni.length > 0 && (<>
+        <h2 class="group-title" id="alumni">Alumni</h2>
+        <ul class="alumni">
+          {alumni.map((a) => (
+            <li><b>{a.data.name}</b><span>{[a.data.role, a.data.program, a.data.years].filter(Boolean).join(' · ')}</span>{a.data.now && <span>Now: {a.data.now}</span>}</li>
+          ))}
+        </ul>
+      </>)}
+    </div>
+  </section>
+</Base>

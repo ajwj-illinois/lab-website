@@ -1,0 +1,25 @@
+{
+  "lab_name": "Wagoner Johnson Lab",
+  "lab_full_name": "Applied Biomaterials & Biomechanics Lab",
+  "department": "Mechanical Science and Engineering",
+  "department_url": "https://mechse.illinois.edu",
+  "college": "Grainger College of Engineering",
+  "hero_headline": "How tissues bear load, remodel, and repair.",
+  "hero_intro": "We combine mechanics, imaging, and materials science to understand soft tissues of the female reproductive tract, design scaffolds that regenerate bone, and engineer surfaces that help coral reefs recover.",
+  "research_heading": "One lens, several systems",
+  "research_intro": "Collagen-rich tissues and engineered materials share a common language: structure, mechanics, and remodeling. We study that language across scales.",
+  "methods": [
+    { "name": "SHG imaging", "description": "Label-free 3D collagen architecture" },
+    { "name": "Nanoindentation", "description": "Local mechanical properties at tissue scale" },
+    { "name": "Image-informed inverse FEA", "description": "Constitutive parameters from whole-organ tests" },
+    { "name": "Spatial transcriptomics", "description": "Gene expression mapped onto structure" },
+    { "name": "Quantitative MRI", "description": "Translating tissue properties to the clinic" },
+    { "name": "Additive manufacturing", "description": "Architected ceramic scaffolds" }
+  ],
+  "join_heading": "Join the lab",
+  "join_text": "We welcome students from engineering, biology, and medicine who want to work where mechanics meets health. Prospective graduate students and postdocs: email a CV and a short note on your interests.",
+  "email": "ajwj@illinois.edu",
+  "address": ["Department of Mechanical Science and Engineering", "1206 W Green Street", "Urbana, IL 61801"],
+  "google_scholar": "",
+  "affiliations": ["Grainger College of Engineering", "Carle Illinois College of Medicine", "Biohub Chicago"]
+}

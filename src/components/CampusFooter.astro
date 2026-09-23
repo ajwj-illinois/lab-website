@@ -1,0 +1,27 @@
+---
+// University footer. Live site: official campus footer (ilw-footer).
+// Preview mode: a stand-in with the same information.
+import site from '../data/site.json';
+const preview = import.meta.env.PUBLIC_PREVIEW === '1';
+---
+{preview ? (
+  <footer class="standin-footer">
+    <div class="wrap">
+      <div class="cols">
+        <div><h4>{site.lab_name}</h4>{site.address.map((l) => <>{l}<br/></>)}</div>
+        <div><h4>Contact</h4><a href={`mailto:${site.email}`}>{site.email}</a></div>
+        <div><h4>Affiliations</h4>{site.affiliations.map((a) => <>{a}<br/></>)}</div>
+      </div>
+      <div class="legal">University of Illinois Urbana-Champaign · The live site uses the official campus footer (privacy, accessibility, copyright links).</div>
+    </div>
+  </footer>
+) : (
+  <ilw-footer>
+    <a slot="primary-unit" href={site.department_url}>{site.department}</a>
+    <a slot="site-name" href="/">{site.lab_name}</a>
+    <address slot="address">
+      {site.address.map((l) => <div>{l}</div>)}
+      <div>Email: <a href={`mailto:${site.email}`}>{site.email}</a></div>
+    </address>
+  </ilw-footer>
+)}

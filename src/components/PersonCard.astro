@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { entry: CollectionEntry<'people'>; }
+const d = Astro.props.entry.data;
+---
+<div class="person">
+  <div class="ph">
+    {d.photo ? <img src={d.photo} alt={`Photo of ${d.name}`} loading="lazy" /> : (
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="14" r="8" fill="#13294B"/><path d="M4 40c0-10 7-15 16-15s16 5 16 15z" fill="#13294B"/></svg>
+    )}
+  </div>
+  <b>{d.name}</b>
+  <span>{d.role}</span>
+  {d.program && <span>{d.program}</span>}
+  {d.email && <a href={`mailto:${d.email}`}>Email</a>}
+  {d.website && <>{d.email && ' · '}<a href={d.website}>Website</a></>}
+</div>

@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { getEntry, render } from 'astro:content';
+import site from '../data/site.json';
+const page = await getEntry('pages', 'join');
+const { Content } = await render(page!);
+---
+<Base title="Join">
+  <PageHead eyebrow="Join" title={page!.data.title} intro={page!.data.intro} />
+  <section class="block">
+    <div class="wrap two-col">
+      <div class="prose"><Content /></div>
+      <aside class="aside">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          {site.address.map((l) => <li>{l}</li>)}
+        </ul>
+        <p style="margin-top:24px"><a class="btn dark" href={`mailto:${site.email}`}>Email the lab</a></p>
+      </aside>
+    </div>
+  </section>
+</Base>
